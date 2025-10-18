@@ -1,458 +1,431 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Science Ideal Home – Hostel Management</title>
-  <meta name="theme-color" content="#1e88e5" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css" />
-  <!-- Optional icons: lucide -->
-  <script defer src="https://unpkg.com/lucide@0.446.0/dist/umd/lucide.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Ideal Home - Hostel Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Fixed App Bar / Navbar -->
-  <header class="app-bar">
-    <div class="brand">
-      <div class="brand-logo" aria-hidden="true">🏫</div>
-      <div class="brand-text">
-        <div class="brand-title">Science Ideal Home</div>
-        <div class="brand-sub">Hostel Management</div>
-      </div>
-    </div>
-    <nav class="tabs" role="tablist" aria-label="Main Navigation">
-      <button class="tab is-active" data-route="dashboard" role="tab" aria-selected="true">
-        <i data-lucide="layout-dashboard" class="icon"></i>
-        <span>Dashboard</span>
-      </button>
-      <button class="tab" data-route="students" role="tab" aria-selected="false">
-        <i data-lucide="users" class="icon"></i>
-        <span>Student</span>
-      </button>
-      <button class="tab" data-route="staff" role="tab" aria-selected="false">
-        <i data-lucide="wallet" class="icon"></i>
-        <span>Salary / Expenses</span>
-      </button>
-      <button class="tab" data-route="calculator" role="tab" aria-selected="false">
-        <i data-lucide="calculator" class="icon"></i>
-        <span>Calculator</span>
-      </button>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-home"></i>
+                <span>Science Ideal Home</span>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-tab" data-tab="student">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Student</span>
+                </button>
+                <button class="nav-tab" data-tab="staff">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Staff/Expense</span>
+                </button>
+                <button class="nav-tab" data-tab="calculator">
+                    <i class="fas fa-calculator"></i>
+                    <span>Calculator</span>
+                </button>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <!-- App Content Wrapper (below fixed navbar) -->
-  <main id="app" class="app">
-    <!-- Dashboard Screen -->
-    <section id="screen-dashboard" class="screen" data-screen="dashboard" aria-labelledby="heading-dashboard">
-      <h2 id="heading-dashboard" class="screen-title">Dashboard</h2>
-      <div class="card placeholder">
-        <div class="placeholder-icon">✨</div>
-        <div class="placeholder-title">Coming Soon</div>
-        <p class="placeholder-text">
-          This dashboard will show total students, pending payments, salary overview, and monthly expenses.
-        </p>
-        <button id="btn-sync-drive" class="btn btn-outline" disabled>
-          <i data-lucide="cloud" class="icon"></i>
-          <span>Sync with Google Drive (Coming Soon)</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- Students Screen -->
-    <section id="screen-students" class="screen" data-screen="students" aria-labelledby="heading-students" hidden>
-      <h2 id="heading-students" class="screen-title">Students</h2>
-
-      <div class="toolbar">
-        <div class="search-group">
-          <i data-lucide="search" class="icon"></i>
-          <input id="student-search" class="input" type="search" placeholder="Search by Name, Roll, or ID" />
-        </div>
-        <div class="filters">
-          <button id="filter-status-present" class="chip" data-filter="status" data-value="present">Present</button>
-          <button id="filter-status-ex" class="chip" data-filter="status" data-value="ex">Ex-student</button>
-          <button id="filter-pay-complete" class="chip" data-filter="pay" data-value="complete">Salary Complete</button>
-          <button id="filter-pay-due" class="chip" data-filter="pay" data-value="pending">Salary Arrears</button>
-        </div>
-        <div class="actions">
-          <button id="btn-add-student" class="btn btn-primary">
-            <i data-lucide="user-plus" class="icon"></i>
-            <span>Add Student</span>
-          </button>
-        </div>
-      </div>
-
-      <div id="students-list" class="list"></div>
-    </section>
-
-    <!-- Staff / Expenses Screen -->
-    <section id="screen-staff" class="screen" data-screen="staff" aria-labelledby="heading-staff" hidden>
-      <h2 id="heading-staff" class="screen-title">Staff Salary / Expenses</h2>
-
-      <div class="toolbar">
-        <div class="actions">
-          <button id="btn-add-staffexpense" class="btn btn-primary">
-            <i data-lucide="plus" class="icon"></i>
-            <span>Add Entry</span>
-          </button>
-        </div>
-      </div>
-
-      <div id="staffexpense-list" class="list"></div>
-    </section>
-  </main>
-
-  <!-- Fullscreen Overlays / Modals -->
-  
-  <!-- Student Profile (Fullscreen panel) -->
-  <section id="panel-student-profile" class="panel" aria-hidden="true" hidden>
-    <header class="panel-bar">
-      <button class="icon-btn" data-close-panel="panel-student-profile" aria-label="Close">
-        <i data-lucide="arrow-left"></i>
-      </button>
-      <div class="panel-title">Student Profile</div>
-      <div></div>
-    </header>
-    <div class="panel-body">
-      <div class="profile-header">
-        <img id="profile-photo" class="avatar" alt="Profile photo" />
-        <div class="profile-names">
-          <div id="profile-name" class="title"></div>
-          <div id="profile-meta" class="sub"></div>
-          <div id="profile-tags" class="tags"></div>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <div class="card-title">Details</div>
-          <div class="kv">
-            <div><span>Father's Name</span><strong id="profile-father-name"></strong></div>
-            <div><span>Father's Job</span><strong id="profile-father-job"></strong></div>
-            <div><span>Phone</span><strong id="profile-phone"></strong></div>
-            <div><span>Address</span><strong id="profile-address"></strong></div>
-            <div><span>More</span><strong id="profile-more"></strong></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Payment History</div>
-          <div id="profile-payments" class="timeline"></div>
-        </div>
-      </div>
-    </div>
-    <footer class="panel-actions">
-      <button id="btn-profile-notice" class="btn btn-outline">
-        <i data-lucide="bell"></i>
-        <span>Notice</span>
-      </button>
-      <button id="btn-profile-payment" class="btn btn-primary">
-        <i data-lucide="credit-card"></i>
-        <span>Payment</span>
-      </button>
-      <button id="btn-profile-edit" class="btn btn-secondary">
-        <i data-lucide="pencil"></i>
-        <span>Edit</span>
-      </button>
-    </footer>
-  </section>
-
-  <!-- Student Form Modal -->
-  <section id="modal-student-form" class="modal" role="dialog" aria-modal="true" aria-labelledby="student-form-title" hidden>
-    <div class="modal-card">
-      <header class="modal-bar">
-        <div class="modal-title" id="student-form-title">Student</div>
-        <button class="icon-btn" data-close-modal="modal-student-form" aria-label="Close">
-          <i data-lucide="x"></i>
-        </button>
-      </header>
-      <form id="student-form" class="form">
-        <input type="hidden" id="student-id" />
-
-        <div class="field photo-field">
-          <label>Profile Photo</label>
-          <div class="photo-input">
-            <img id="student-photo-preview" class="avatar sm" alt="Preview" />
-            <input id="student-photo" type="file" accept="image/*" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Name</label>
-          <input id="student-name" type="text" class="input" required />
-        </div>
-        <div class="field row">
-          <div>
-            <label>Roll</label>
-            <input id="student-roll" type="text" class="input" />
-          </div>
-          <div>
-            <label>Class & Group</label>
-            <input id="student-class" type="text" class="input" placeholder="e.g., 10 Science" />
-          </div>
-        </div>
-        <div class="field row">
-          <div>
-            <label>Phone</label>
-            <div class="input-affix">
-              <input id="student-phone" type="tel" class="input" />
-              <button type="button" class="icon-btn" id="student-phone-wa" title="WhatsApp">
-                <i data-lucide="message-circle"></i>
-              </button>
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="tab-content active">
+            <div class="container">
+                <h1>Dashboard</h1>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Total Students</h3>
+                            <p class="card-number" id="total-students">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-money-check-alt"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Pending Payments</h3>
+                            <p class="card-number" id="pending-payments">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Staff Members</h3>
+                            <p class="card-number" id="total-staff">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Monthly Expenses</h3>
+                            <p class="card-number" id="monthly-expenses">৳0</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div>
-            <label>Secondary Phone</label>
-            <input id="student-phone2" type="tel" class="input" />
-          </div>
-        </div>
-        <div class="field">
-          <label>Student ID</label>
-          <input id="student-studentId" type="text" class="input" />
-        </div>
-        <div class="field">
-          <label>Father's Name</label>
-          <input id="student-fatherName" type="text" class="input" />
-        </div>
-        <div class="field row">
-          <div>
-            <label>Father's Phone 1</label>
-            <div class="input-affix">
-              <input id="student-fatherPhone1" type="tel" class="input" />
-              <button type="button" class="icon-btn" id="student-fatherPhone1-wa" title="WhatsApp">
-                <i data-lucide="message-circle"></i>
-              </button>
+        </section>
+
+        <!-- Student Section -->
+        <section id="student" class="tab-content">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Student Management</h1>
+                    <button class="btn btn-primary" id="add-student-btn">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
+                </div>
+
+                <!-- Search and Filter Bar -->
+                <div class="search-filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="student-search" placeholder="Search by name, roll, or ID...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="status-filter">
+                            <option value="all">All Students</option>
+                            <option value="present">Present</option>
+                            <option value="ex">Ex-Student</option>
+                        </select>
+                        <select id="payment-filter">
+                            <option value="all">All Payments</option>
+                            <option value="paid">Paid</option>
+                            <option value="unpaid">Unpaid</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Student Cards Container -->
+                <div class="student-cards" id="student-cards">
+                    <!-- Student cards will be dynamically generated here -->
+                </div>
+
+                <!-- Bottom Action Bar -->
+                <div class="bottom-bar">
+                    <button class="bottom-btn" id="notice-btn">
+                        <i class="fas fa-bell"></i>
+                        <span>Notice</span>
+                    </button>
+                    <button class="bottom-btn" id="payment-btn">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment</span>
+                    </button>
+                    <button class="bottom-btn" id="edit-btn">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit</span>
+                    </button>
+                </div>
             </div>
-          </div>
-          <div>
-            <label>Father's Phone 2</label>
-            <input id="student-fatherPhone2" type="tel" class="input" />
-          </div>
-        </div>
-        <div class="field">
-          <label>Father's Job</label>
-          <input id="student-fatherJob" type="text" class="input" />
-        </div>
-        <div class="field">
-          <label>Address</label>
-          <input id="student-address" type="text" class="input" />
-        </div>
-        <div class="field">
-          <label>More Details</label>
-          <textarea id="student-details" class="textarea" rows="3"></textarea>
-        </div>
-        <div class="field">
-          <label>Status</label>
-          <select id="student-status" class="input">
-            <option value="present">Present</option>
-            <option value="ex">Ex-student</option>
-          </select>
-        </div>
+        </section>
 
-        <footer class="modal-actions">
-          <button type="button" class="btn" data-close-modal="modal-student-form">Cancel</button>
-          <button type="submit" class="btn btn-primary">
-            <i data-lucide="save"></i>
-            <span>Save</span>
-          </button>
-        </footer>
-      </form>
+        <!-- Staff Salary/Expense Section -->
+        <section id="staff" class="tab-content">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Staff & Expenses</h1>
+                    <button class="btn btn-primary" id="add-staff-btn">
+                        <i class="fas fa-plus"></i> Add Entry
+                    </button>
+                </div>
+
+                <!-- Staff/Expense Cards Container -->
+                <div class="staff-cards" id="staff-cards">
+                    <!-- Staff/expense cards will be dynamically generated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section (Popup) -->
+        <div id="calculator-popup" class="popup-overlay">
+            <div class="popup-content calculator">
+                <div class="popup-header">
+                    <h3>Calculator</h3>
+                    <button class="close-btn" id="close-calculator">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="calculator-display">
+                    <input type="text" id="calc-display" readonly>
+                </div>
+                <div class="calculator-buttons">
+                    <button class="calc-btn clear" onclick="clearCalculator()">C</button>
+                    <button class="calc-btn clear" onclick="clearEntry()">CE</button>
+                    <button class="calc-btn operator" onclick="deleteLast()">⌫</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('/')">/</button>
+                    
+                    <button class="calc-btn number" onclick="appendToDisplay('7')">7</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('8')">8</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('9')">9</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('*')">×</button>
+                    
+                    <button class="calc-btn number" onclick="appendToDisplay('4')">4</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('5')">5</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('6')">6</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('-')">-</button>
+                    
+                    <button class="calc-btn number" onclick="appendToDisplay('1')">1</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('2')">2</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('3')">3</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('+')">+</button>
+                    
+                    <button class="calc-btn number zero" onclick="appendToDisplay('0')">0</button>
+                    <button class="calc-btn number" onclick="appendToDisplay('.')">.</button>
+                    <button class="calc-btn equals" onclick="calculateResult()">=</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Student Profile Modal -->
+    <div id="student-profile-modal" class="popup-overlay">
+        <div class="popup-content student-profile">
+            <div class="popup-header">
+                <h3>Student Profile</h3>
+                <button class="close-btn" id="close-student-profile">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="student-profile-content">
+                <!-- Student profile content will be dynamically generated -->
+            </div>
+        </div>
     </div>
-  </section>
 
-  <!-- Payment Form Modal -->
-  <section id="modal-payment-form" class="modal" role="dialog" aria-modal="true" aria-labelledby="payment-form-title" hidden>
-    <div class="modal-card">
-      <header class="modal-bar">
-        <div class="modal-title" id="payment-form-title">Payment</div>
-        <button class="icon-btn" data-close-modal="modal-payment-form" aria-label="Close">
-          <i data-lucide="x"></i>
-        </button>
-      </header>
-      <form id="payment-form" class="form">
-        <input type="hidden" id="payment-student-id" />
-
-        <div class="field">
-          <label>Payment Month</label>
-          <input id="payment-month" type="month" class="input" required />
+    <!-- Add/Edit Student Modal -->
+    <div id="student-form-modal" class="popup-overlay">
+        <div class="popup-content student-form">
+            <div class="popup-header">
+                <h3 id="student-form-title">Add Student</h3>
+                <button class="close-btn" id="close-student-form">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="student-form">
+                <div class="form-group">
+                    <label>Photo</label>
+                    <div class="photo-upload">
+                        <input type="file" id="student-photo" accept="image/*">
+                        <div class="photo-preview" id="photo-preview">
+                            <i class="fas fa-camera"></i>
+                            <span>Add Photo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" id="student-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Roll Number *</label>
+                        <input type="text" id="student-roll" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Class/Group *</label>
+                        <input type="text" id="student-class" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Student ID</label>
+                        <input type="text" id="student-id">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Phone Numbers</label>
+                    <div class="phone-group">
+                        <input type="tel" id="student-phone" placeholder="Student Phone">
+                        <button type="button" class="whatsapp-btn" onclick="openWhatsApp('student')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Father's Information</label>
+                    <input type="text" id="father-name" placeholder="Father's Name">
+                    <div class="phone-group">
+                        <input type="tel" id="father-phone" placeholder="Father's Phone">
+                        <button type="button" class="whatsapp-btn" onclick="openWhatsApp('father')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="student-address" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="student-notes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-student-form">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Student</button>
+                </div>
+            </form>
         </div>
-        <div class="field row">
-          <div>
-            <label>Apartment Bill</label>
-            <input id="payment-apartment" type="number" class="input" inputmode="decimal" value="0" />
-          </div>
-          <div>
-            <label>Tuition Fee</label>
-            <input id="payment-tuition" type="number" class="input" inputmode="decimal" value="0" />
-          </div>
-        </div>
-        <div class="field row">
-          <div>
-            <label>Food Days</label>
-            <input id="payment-food-days" type="number" class="input" inputmode="numeric" value="0" />
-          </div>
-          <div>
-            <label>Daily Rate</label>
-            <input id="payment-food-rate" type="number" class="input" inputmode="decimal" value="0" />
-          </div>
-        </div>
-        <div class="field readonly">
-          <label>Food Bill</label>
-          <input id="payment-food-total" type="text" class="input" value="0" readonly />
-        </div>
-        <div class="field readonly">
-          <label>Total</label>
-          <input id="payment-total" type="text" class="input" value="0" readonly />
-        </div>
-
-        <footer class="modal-actions">
-          <button type="button" class="btn" data-close-modal="modal-payment-form">Cancel</button>
-          <button type="button" id="btn-print-receipt" class="btn btn-secondary">
-            <i data-lucide="printer"></i>
-            <span>Print Receipt</span>
-          </button>
-          <button type="submit" class="btn btn-primary">
-            <i data-lucide="check"></i>
-            <span>Pay</span>
-          </button>
-        </footer>
-      </form>
     </div>
-  </section>
 
-  <!-- Notice Modal -->
-  <section id="modal-notice" class="modal" role="dialog" aria-modal="true" aria-labelledby="notice-title" hidden>
-    <div class="modal-card">
-      <header class="modal-bar">
-        <div class="modal-title" id="notice-title">Send Notice</div>
-        <button class="icon-btn" data-close-modal="modal-notice" aria-label="Close">
-          <i data-lucide="x"></i>
-        </button>
-      </header>
-      <div class="form">
-        <div class="field">
-          <label>To (Phone)</label>
-          <input id="notice-phone" type="tel" class="input" />
+    <!-- Payment Form Modal -->
+    <div id="payment-form-modal" class="popup-overlay">
+        <div class="popup-content payment-form">
+            <div class="popup-header">
+                <h3>Payment Form</h3>
+                <button class="close-btn" id="close-payment-form">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="payment-form">
+                <div class="form-group">
+                    <label>Student</label>
+                    <select id="payment-student" required>
+                        <option value="">Select Student</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Payment Month</label>
+                    <input type="month" id="payment-month" required>
+                </div>
+                <div class="payment-items">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Apartment Rent</label>
+                            <input type="number" id="apartment-rent" class="payment-item" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Tuition Fee</label>
+                            <input type="number" id="tuition-fee" class="payment-item" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Food Bill</label>
+                        <input type="number" id="food-bill" class="payment-item" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Total Amount</label>
+                    <input type="number" id="total-amount" readonly>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-payment-form">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Process Payment</button>
+                    <button type="button" class="btn btn-outline" id="print-receipt">Print Receipt</button>
+                </div>
+            </form>
         </div>
-        <div class="field">
-          <label>Message</label>
-          <textarea id="notice-message" class="textarea" rows="3" placeholder="Your payment for [Month] is pending. Please clear dues."></textarea>
-        </div>
-        <footer class="modal-actions">
-          <button class="btn" data-close-modal="modal-notice">Cancel</button>
-          <a id="notice-sms" class="btn btn-secondary" target="_blank" rel="noopener">
-            <i data-lucide="sms"></i>
-            <span>SMS</span>
-          </a>
-          <a id="notice-wa" class="btn btn-primary" target="_blank" rel="noopener">
-            <i data-lucide="send"></i>
-            <span>WhatsApp</span>
-          </a>
-        </footer>
-      </div>
     </div>
-  </section>
 
-  <!-- Staff/Expense Form Modal -->
-  <section id="modal-staffexpense" class="modal" role="dialog" aria-modal="true" aria-labelledby="staffexpense-title" hidden>
-    <div class="modal-card">
-      <header class="modal-bar">
-        <div class="modal-title" id="staffexpense-title">Add Entry</div>
-        <button class="icon-btn" data-close-modal="modal-staffexpense" aria-label="Close">
-          <i data-lucide="x"></i>
-        </button>
-      </header>
-      <form id="staffexpense-form" class="form">
-        <input type="hidden" id="staffexpense-id" />
-        <div class="field row">
-          <div>
-            <label>Type</label>
-            <select id="staffexpense-type" class="input">
-              <option value="staff">Staff Salary</option>
-              <option value="expense">Expense</option>
-            </select>
-          </div>
-          <div>
-            <label>Status</label>
-            <select id="staffexpense-status" class="input">
-              <option value="not_paid">Not Paid</option>
-              <option value="paid">Paid</option>
-            </select>
-          </div>
+    <!-- Staff/Expense Form Modal -->
+    <div id="staff-form-modal" class="popup-overlay">
+        <div class="popup-content staff-form">
+            <div class="popup-header">
+                <h3 id="staff-form-title">Add Staff/Expense</h3>
+                <button class="close-btn" id="close-staff-form">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="staff-form">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="entry-type" required>
+                        <option value="">Select Type</option>
+                        <option value="staff">Staff Salary</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="entry-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="entry-description" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Amount *</label>
+                        <input type="number" id="entry-amount" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="entry-status" required>
+                            <option value="pending">Pending</option>
+                            <option value="paid">Paid</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="entry-phone">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-staff-form">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Entry</button>
+                </div>
+            </form>
         </div>
-        <div class="field">
-          <label>Title</label>
-          <input id="staffexpense-title-input" type="text" class="input" placeholder="e.g., Electricity Bill" required />
-        </div>
-        <div class="field">
-          <label>Description</label>
-          <input id="staffexpense-desc" type="text" class="input" />
-        </div>
-        <div class="field row">
-          <div>
-            <label>Amount</label>
-            <input id="staffexpense-amount" type="number" class="input" inputmode="decimal" required />
-          </div>
-          <div>
-            <label>Phone (optional)</label>
-            <input id="staffexpense-phone" type="tel" class="input" />
-          </div>
-        </div>
-        <footer class="modal-actions">
-          <button type="button" class="btn" data-close-modal="modal-staffexpense">Cancel</button>
-          <button type="submit" class="btn btn-primary">
-            <i data-lucide="save"></i>
-            <span>Save</span>
-          </button>
-        </footer>
-      </form>
     </div>
-  </section>
 
-  <!-- Calculator Modal -->
-  <section id="modal-calculator" class="modal" role="dialog" aria-modal="true" aria-labelledby="calculator-title" hidden>
-    <div class="modal-card sm">
-      <header class="modal-bar">
-        <div class="modal-title" id="calculator-title">Calculator</div>
-        <button class="icon-btn" data-close-modal="modal-calculator" aria-label="Close">
-          <i data-lucide="x"></i>
-        </button>
-      </header>
-      <div class="calculator">
-        <input id="calc-display" class="calc-display" type="text" inputmode="decimal" readonly />
-        <div class="calc-grid">
-          <button data-calc="C" class="btn calc-btn alt">C</button>
-          <button data-calc="(" class="btn calc-btn">(</button>
-          <button data-calc=")" class="btn calc-btn">)</button>
-          <button data-calc="/" class="btn calc-btn alt">÷</button>
-
-          <button data-calc="7" class="btn calc-btn">7</button>
-          <button data-calc="8" class="btn calc-btn">8</button>
-          <button data-calc="9" class="btn calc-btn">9</button>
-          <button data-calc="*" class="btn calc-btn alt">×</button>
-
-          <button data-calc="4" class="btn calc-btn">4</button>
-          <button data-calc="5" class="btn calc-btn">5</button>
-          <button data-calc="6" class="btn calc-btn">6</button>
-          <button data-calc="-" class="btn calc-btn alt">−</button>
-
-          <button data-calc="1" class="btn calc-btn">1</button>
-          <button data-calc="2" class="btn calc-btn">2</button>
-          <button data-calc="3" class="btn calc-btn">3</button>
-          <button data-calc="+" class="btn calc-btn alt">+</button>
-
-          <button data-calc="0" class="btn calc-btn wide">0</button>
-          <button data-calc="." class="btn calc-btn">.</button>
-          <button data-calc="=" class="btn calc-btn primary">=</button>
+    <!-- Notice Modal -->
+    <div id="notice-modal" class="popup-overlay">
+        <div class="popup-content notice-form">
+            <div class="popup-header">
+                <h3>Send Notice</h3>
+                <button class="close-btn" id="close-notice">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="notice-form">
+                <div class="form-group">
+                    <label>Recipients</label>
+                    <select id="notice-recipients" multiple>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple students</small>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="notice-message" rows="4" placeholder="Enter your message here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Send Via</label>
+                    <div class="send-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="send-sms" checked>
+                            <span>SMS</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="send-whatsapp" checked>
+                            <span>WhatsApp</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-notice">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Notice</button>
+                </div>
+            </form>
         </div>
-      </div>
     </div>
-  </section>
 
-  <!-- Hidden Receipt for Printing -->
-  <div id="receipt" class="receipt" aria-hidden="true"></div>
-
-  <script src="./script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
